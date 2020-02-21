@@ -6,19 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://101.200.155.91">
-  <title>Archives | DuoLa口袋不放糖</title>
+  <title>一步步实现一个单点登录（含后端） | DuoLa口袋不放糖</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta name="description" content="人来人往，盼青龙上岸，只怪你我相见恨晚">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DuoLa口袋不放糖">
-<meta property="og:url" content="http://101.200.155.91/archives/index.html">
+  <meta name="description" content="先来看看实现效果吧  前端原理在 a.com 登录之后我们要实现 b.com 打开后自动登录，我们知道两者之间必不可少的环节就是相互通信 但是由于浏览器因为安全问题设置有 cookie 同源策略影响  因此有了两种解决方案： 第一种：子域通过访问主域获取信息子域可完美获取到主域下的 cookie 信息，此方案没什么可说的，且这种方案限制性太强，需要两个子系统都是二级域 第二种：两个系统统一把登录信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一步步实现一个单点登录（含后端）">
+<meta property="og:url" content="http://101.200.155.91/sso/index.html">
 <meta property="og:site_name" content="DuoLa口袋不放糖">
-<meta property="og:description" content="人来人往，盼青龙上岸，只怪你我相见恨晚">
+<meta property="og:description" content="先来看看实现效果吧  前端原理在 a.com 登录之后我们要实现 b.com 打开后自动登录，我们知道两者之间必不可少的环节就是相互通信 但是由于浏览器因为安全问题设置有 cookie 同源策略影响  因此有了两种解决方案： 第一种：子域通过访问主域获取信息子域可完美获取到主域下的 cookie 信息，此方案没什么可说的，且这种方案限制性太强，需要两个子系统都是二级域 第二种：两个系统统一把登录信">
 <meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="http://101.200.155.91/sso/sso.gif">
+<meta property="og:image" content="http://101.200.155.91/sso/relation.png">
+<meta property="og:image" content="http://101.200.155.91/sso/server.png">
+<meta property="article:published_time" content="2020-02-21T08:51:00.000Z">
+<meta property="article:modified_time" content="2020-02-21T10:32:19.785Z">
 <meta property="article:author" content="Catlina">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://101.200.155.91/sso/sso.gif">
   
     <link rel="alternative" href="/atom.xml" title="DuoLa口袋不放糖" type="application/atom+xml">
   
@@ -181,240 +187,235 @@
               class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="[layout]-sso" class="article article-type-[layout] " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
   
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-[layout]">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
+    <h1 class="article-title" itemprop="name">
+      一步步实现一个单点登录（含后端）
+    </h1>
+  
+
+
+  
+  
 <a href="/sso/" class="archive-article-date">
         <time datetime="2020-02-21T08:51:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
 </a>
 
+  
+  
+    
+<div style="margin-top:10px;">
+  <span class="post-time">
+    <span class="post-meta-item-icon">
+      <!-- fonts.scss -->
+      <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
+      <i class="icon-statistics"></i>
+      <span class="post-meta-item-text"> 字数统计:</span>
+      <span class="post-count">1.6k字</span>
+    </span>
+  </span>
+
+  <span class="post-time">
+    &nbsp; | &nbsp;
+    <span class="post-meta-item-icon">
+      <i class="icon-book icon"></i>
+      <span class="post-meta-item-text"> 阅读时长≈</span>
+      <span class="post-count">6分</span>
+    </span>
+  </span>
+</div>
+
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <h2 id="先来看看实现效果吧"><a href="#先来看看实现效果吧" class="headerlink" title="先来看看实现效果吧"></a>先来看看实现效果吧</h2><img src="/sso/sso.gif" class="">
+
+<h2 id="前端原理"><a href="#前端原理" class="headerlink" title="前端原理"></a>前端原理</h2><p>在 a.com 登录之后我们要实现 b.com 打开后自动登录，我们知道两者之间必不可少的环节就是相互通信</p>
+<p>但是由于浏览器因为安全问题设置有 cookie 同源策略影响  因此有了两种解决方案：</p>
+<h5 id="第一种：子域通过访问主域获取信息"><a href="#第一种：子域通过访问主域获取信息" class="headerlink" title="第一种：子域通过访问主域获取信息"></a>第一种：子域通过访问主域获取信息</h5><p>子域可完美获取到主域下的 cookie 信息，此方案没什么可说的，且这种方案限制性太强，需要两个子系统都是二级域</p>
+<h5 id="第二种：两个系统统一把登录信息存储到另一个服务中（也是以下实现的方案）"><a href="#第二种：两个系统统一把登录信息存储到另一个服务中（也是以下实现的方案）" class="headerlink" title="第二种：两个系统统一把登录信息存储到另一个服务中（也是以下实现的方案）"></a>第二种：两个系统统一把登录信息存储到另一个服务中（也是以下实现的方案）</h5><p>每个系统登录后的信息都传入此作为通信的系统中，每个系统打开后都先尝试去通信服务中获取用户令牌</p>
+<p>如若获取到，直接使用令牌登录获取用户信息，如若没有获取到，正常让用户登录，利用手段：跨域存储</p>
+<h3 id="知识理论层-有基础的可直接进入下方实践层"><a href="#知识理论层-有基础的可直接进入下方实践层" class="headerlink" title="知识理论层(有基础的可直接进入下方实践层)"></a>知识理论层(有基础的可直接进入下方实践层)</h3><p><strong>window 提供一个 api 接口叫 postMessage，方法参数如下</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">otherWindow.postMessage(message, targetOrigin, [transfer]);</span><br></pre></td></tr></table></figure>
+<p><strong><em>otherWindow</em></strong><br>其他窗口的一个引用，比如 iframe 的 contentWindow 属性、执行 window.open 返回的窗口对象、或者是命名过或数值索引的<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/frames" target="_blank" rel="noopener">window.frames</a>。</p>
+<p><strong><em>message</em></strong><br>将要发送到其他 window的数据。它将会被<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm" target="_blank" rel="noopener">结构化克隆算法</a>序列化。这意味着你可以不受什么限制的将数据对象安全的传送给目标窗口而无需自己序列化。</p>
+<p><strong><em>targetOrigin</em></strong><br>通过窗口的origin属性来指定哪些窗口能接收到消息事件，其值可以是字符串”*”（表示无限制）或者一个URI。在发送消息的时候，如果目标窗口的协议、主机地址或端口这三者的任意一项不匹配targetOrigin提供的值，那么消息就不会被发送；只有三者完全匹配，消息才会被发送。这个机制用来控制消息可以发送到哪些窗口；例如，当用postMessage传送密码时，这个参数就显得尤为重要，必须保证它的值与这条包含密码的信息的预期接受者的origin属性完全一致，来防止密码被恶意的第三方截获。如果你明确的知道消息应该发送到哪个窗口，那么请始终提供一个有确切值的targetOrigin，而不是*。不提供确切的目标将导致数据泄露到任何对数据感兴趣的恶意站点。</p>
+<p><strong><em>transfer(可选)</em></strong><br>是一串和message 同时传递的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Transferable" target="_blank" rel="noopener">Transferable</a> 对象. 这些对象的所有权将被转移给消息的接收方，而发送一方将不再保有所有权。</p>
+<p>有了如上这等好东西，那么我们可以在通信服务中设置一个可访问的页面，每个系统登录之后我们就将信息储存到这个服务中</p>
+<p>那么我们每个系统在登录前只需要通过 ifarme 去这个通信服务中获取一下信息就好了</p>
+<p>为了方便调试，笔者这里在本地开启了三个端口（server1、server2、loginServer），他们的关系大概如下图所示</p>
+<img src="/sso/relation.png" class="">
+
+<h3 id="前端代码实践"><a href="#前端代码实践" class="headerlink" title="前端代码实践"></a>前端代码实践</h3><p>有了如上述这般的扯淡，那么接下来直接上代码</p>
+<p><strong>需要登录的server</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;登录方法</span><br><span class="line">function login() &#123;</span><br><span class="line">    const name &#x3D; document.querySelector(&#39;.name&#39;).value</span><br><span class="line">    const password &#x3D; document.querySelector(&#39;.psw&#39;).value</span><br><span class="line">    jQuery.ajax(&#123;</span><br><span class="line">        url: &#39;http:&#x2F;&#x2F;localhost:8083&#x2F;login&#39;,</span><br><span class="line">        method: &#39;post&#39;,</span><br><span class="line">        data: &#123;</span><br><span class="line">            name,</span><br><span class="line">            password</span><br><span class="line">        &#125;,</span><br><span class="line">        success: function(res) &#123;</span><br><span class="line">            const resData &#x3D; JSON.parse(res)</span><br><span class="line">            $(&#39;.login&#39;).fadeOut(500)</span><br><span class="line">            $(&#39;.success&#39;).fadeIn(500)</span><br><span class="line">            let str &#x3D; &#96;</span><br><span class="line">                &lt;div&gt;</span><br><span class="line">                    &lt;p&gt;登录成功&lt;&#x2F;p&gt;</span><br><span class="line">                    &lt;p&gt;message: $&#123;resData.message&#125;&lt;&#x2F;p&gt;</span><br><span class="line">                &lt;&#x2F;div&gt;&#96;</span><br><span class="line">            $(&quot;.success&quot;).append(str)</span><br><span class="line">            &#x2F;&#x2F; 登陆成功后将用户令牌发送到通信服务中存好</span><br><span class="line">            postInfo(resData, &#39;set&#39;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function getInfo() &#123;</span><br><span class="line">    return localStorage.getItem(&#39;userInfo&#39;)</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 发送数据到通信服务</span><br><span class="line">function postInfo(data, func) &#123;</span><br><span class="line">    const ifameWin &#x3D; document.querySelector(&quot;#middle&quot;).contentWindow</span><br><span class="line">    let Message &#x3D; &#123;</span><br><span class="line">        method: func &#x3D;&#x3D;&#x3D; &#39;set&#39;? &#39;setItem&#39; : &#39;getItem&#39;,</span><br><span class="line">        key: &#39;userInfo&#39;,</span><br><span class="line">        value: data || &#39;&#39;</span><br><span class="line">    &#125;</span><br><span class="line">    ifameWin.postMessage(Message, &#39;*&#39;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">window.onload &#x3D; function() &#123;</span><br><span class="line">    &#x2F;&#x2F; 先看看自己有没有登录信息</span><br><span class="line">    if(getInfo()) &#123;</span><br><span class="line">        $(&#39;.login&#39;).hide()</span><br><span class="line">        $(&#39;.success&#39;).show()</span><br><span class="line">        let str &#x3D; &#96;</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;p&gt;已登录&lt;&#x2F;p&gt;</span><br><span class="line">                &lt;p&gt;用户名: $&#123;localStorage.getItem(&#39;userInfo&#39;).name&#125;&lt;&#x2F;p&gt;</span><br><span class="line">                &lt;p&gt;用户名: $&#123;localStorage.getItem(&#39;userInfo&#39;).password&#125;&lt;&#x2F;p&gt;</span><br><span class="line">            &lt;&#x2F;div&gt;&#96;</span><br><span class="line">        $(&quot;.success&quot;).append(str)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        &#x2F;&#x2F; 自己没有就去通信服务粑粑那儿看看有没有</span><br><span class="line">        postInfo()</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 监听通信服务粑粑那儿发过来的信息</span><br><span class="line">    window.addEventListener(&#39;message&#39;, function (e) &#123;</span><br><span class="line">        &#x2F;&#x2F; 如果有需要的信息（此处判断过于简单，笔者懒你们可不能懒啊）</span><br><span class="line">        if(e.data &amp;&amp; JSON.parse(e.data.result)) &#123;</span><br><span class="line">            const data &#x3D; JSON.parse(e.data.result)</span><br><span class="line">            $(&#39;.login&#39;).hide()</span><br><span class="line">            $(&#39;.success&#39;).show()</span><br><span class="line">            let str &#x3D; &#96;</span><br><span class="line">                &lt;div&gt;</span><br><span class="line">                    &lt;p&gt;已登录&lt;&#x2F;p&gt;</span><br><span class="line">                    &lt;p&gt;用户名: $&#123;data.user.name&#125;&lt;&#x2F;p&gt;</span><br><span class="line">                    &lt;p&gt;用户名: $&#123;data.user.password&#125;&lt;&#x2F;p&gt;</span><br><span class="line">                &lt;&#x2F;div&gt;&#96;</span><br><span class="line">            $(&quot;.success&quot;).append(str)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>负责通信的server</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">let objMap &#x3D; &#123;</span><br><span class="line">    setItem: (key, val) &#x3D;&gt; window.localStorage.setItem(key, JSON.stringify(val)),</span><br><span class="line">    getItem: (key) &#x3D;&gt; window.localStorage.getItem(key)</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;*</span><br><span class="line"> * 监听系统儿子发过来的信息，根据儿子需求做对应的事</span><br><span class="line">*&#x2F;</span><br><span class="line"></span><br><span class="line">window.addEventListener(&#39;message&#39;, function (e) &#123;</span><br><span class="line">    let &#123; method, key, value &#125; &#x3D; e.data</span><br><span class="line">    let result &#x3D; objMap[method](key, value)</span><br><span class="line">    let response &#x3D; &#123;</span><br><span class="line">        result</span><br><span class="line">    &#125;</span><br><span class="line">    window.parent.postMessage(response, &#39;*&#39;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="好了，到这里前端工作就做完了，接下来进入后端工作"><a href="#好了，到这里前端工作就做完了，接下来进入后端工作" class="headerlink" title="好了，到这里前端工作就做完了，接下来进入后端工作"></a>好了，到这里前端工作就做完了，接下来进入后端工作</h4><p>神说：我们的系统登录需要后端配合于是后端便有了登录接口</p>
+<p>后端为了方便各位自己尝试修改，因此采用的是 node.js 的 koa2 来做，通信服务页面为了方便也放在了这里</p>
+<p>大概逻辑就是：客户端发起登录请求，根据用户信息进行验证，验证成功则生成 token 返回给客户端</p>
+<p>笔者这里没有连接数据库，甚至连简单的文件数据库都没做，只做了个最简单的信息存储，因为我懒……</p>
+<p>如此如此～～  这般这般～～</p>
+<img src="/sso/server.png" class="">
+
+<p>到这里就结束了，具体源码我已经上传到了 github 了， 有兴趣的可以 down 下来自己试试， <a href="https://github.com/Catlina1996/sso" target="_blank" rel="noopener">https://github.com/Catlina1996/sso</a></p>
+
+    
+
+    
+    <div class="page-reward">
+      <a href="javascript:void(0);" class="page-reward-btn tooltip-top" target="_self">
+        <div class="tooltip tooltip-east">
+          <span class="tooltip-item">
+            赏
+          </span>
+          <span class="tooltip-content">
+            <span class="tooltip-text">
+              <span class="tooltip-inner">
+                <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i
+                    class="icon icon-quo-right"></i></p>
+                <div class="reward-box">
+                  
+                  
+                </div>
+              </span>
+            </span>
+          </span>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/sso/" target="_blank">一步步实现一个单点登录（含后端）</a>
-  
-    </h1>
-  
+      </a>
+    </div>
+    
 
+    
+    <div class="declare"> 
+      <ul class="post-copyright">
+        <li>
+          <strong>本文作者：</strong>
+          Catlina
+        </li>
+        <li>
+          <strong>本文链接：</strong>
+          <a href="http://101.200.155.91/sso/" title="一步步实现一个单点登录（含后端）" target="_blank">http://101.200.155.91/sso/</a>
+        </li>
+        
+      </ul>
+    </div>
+    
 
-        <div class="article-info info-on-right">
-          
-          
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+    
 
+    
+
+    
+    
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <!-- <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a> -->
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+     <!-- <img src="//pan.baidu.com/share/qrcode?url=http://101.200.155.91/sso/" alt="微信分享二维码"> -->
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+
+    
+    <div class="clearfix"></div>
+  </div>
   </div>
 </article>
+
+
+<nav id="article-nav">
   
-    
-    
-      
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
+  
+    <a href="/vueseo/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">prerender-spa-plugin Vue预渲染配合meta-info优化seo</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/vueseo/" class="archive-article-date">
-        <time datetime="2019-12-29T12:20:28.052Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-29</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/vueseo/" target="_blank">prerender-spa-plugin Vue预渲染配合meta-info优化seo</a>
-  
-    </h1>
-  
+        
+        
+    </div>
+</aside>
 
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">vue</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">seo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/websocket/" class="archive-article-date">
-        <time datetime="2019-12-29T11:46:19.811Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-29</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/websocket/" target="_blank">uni-app 真机测试 socketTask = uni.connectSocket 可以成功，但是socketTask.onOpen 监听不到连接成功</a>
-  
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">websocket</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/nuxtFont/" class="archive-article-date">
-        <time datetime="2019-12-29T10:55:21.713Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-29</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/nuxtFont/" target="_blank">nuxt引入字体问题</a>
-  
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">nuxt</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	
-<a href="/optimization/" class="archive-article-date">
-        <time datetime="2019-12-29T09:29:25.083Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-29</time>
-</a>
-
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-	
-	  <a class="archive-article-title" href="/optimization/" target="_blank">nuxt打包压缩代码</a>
-  
-    </h1>
-  
 
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">nuxt</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
+
 
 
           </div>
@@ -446,8 +447,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
