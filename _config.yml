@@ -13,7 +13,7 @@ timezone: ''
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://catlina1996.github.io/
+url: http://101.200.155.91//
 root: /
 # permalink: :year/:month/:day/:title/
 permalink: :title/
@@ -42,7 +42,7 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 highlight:
@@ -100,6 +100,8 @@ theme: yilia-plus
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
+  repo: https://github.com/Catlina1996/Catlina1996.github.io
+  branch: master
 
 jsonContent:
   meta: false
